@@ -21,16 +21,6 @@ FileController::~FileController()
 std::vector<Serializable*> FileController::open() 
 {
     std::ifstream input(filepath, std::ios::binary);
-
-    // std::string signature;
-    // while(readStringFromBinary(input, signature))
-    // {
-    //     Serializable* serializable = SerializableFactory::generate(signature);
-    //     if (serializable == nullptr)
-    //         std::cout << "Invalid object type in binary file !" << std::endl;
-    //     serializable->deserialize(input);
-    //     this->fileItems.push_back(serializable);
-    // }
     
     while(!input.eof())
     {
@@ -43,6 +33,19 @@ std::vector<Serializable*> FileController::open()
 
     input.close();
     return this->fileItems;
+}
+
+bool FileController::save()
+{
+    std::ofstream output(filepath, std::ios::binary);
+    for (Serializable* serializable : fileItems)
+    {
+        if (!serializable->serialize(output))
+            return false;
+    }
+
+    output.close();
+    return true;
 }
 
 #endif

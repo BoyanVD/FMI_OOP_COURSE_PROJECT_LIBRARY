@@ -20,4 +20,13 @@ int main()
     FileController controller("./files/books.bin");
     controller.open();
     controller.printAllItems();
+    std::cout << std::endl;
+
+    std::vector<Serializable*> books;
+    books.push_back(new Book("New Author", "New Book", "New Genre", "New Description", 2000, {"new"}, 3.3, 33));
+
+    controller.setFileItems(books);
+    controller.save();
+
+    controller.printAllItems();
 }

@@ -57,6 +57,14 @@ public:
     }
 
     /*
+    * Returns the parsed objects from the file, used by the FileController
+    */
+   std::vector<Serializable*> getFileItems()
+   {
+       return this->fileItems;
+   }
+
+    /*
     * Used for debugging
     */
    void printAllItems()
@@ -66,6 +74,14 @@ public:
            serializable->print();
        }
    }
+
+   /*
+   * DEMO METHOD - MUST REMOVE IT WHEN READY
+   */
+  void setFileItems(std::vector<Serializable*> items)
+  {
+      this->fileItems = items;
+  }
 };
 
 #endif
