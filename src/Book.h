@@ -45,6 +45,16 @@ public:
     {
         return this->author;
     }
+
+    unsigned getYear() const
+    {
+        return year;
+    }
+
+    double getRating() const
+    {
+        return rating;
+    }
 };
 
 #endif

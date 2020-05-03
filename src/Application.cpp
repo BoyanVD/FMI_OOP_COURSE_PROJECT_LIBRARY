@@ -8,6 +8,7 @@
 #include "FileController.h"
 #include "Constants.h"
 #include "Book.h"
+#include "Sorter.h"
 
 bool Application::login(std::string username, std::string password)
 {
@@ -140,7 +141,27 @@ bool Application::booksFind(std::string option, std::string optionString)
     }
 
     return true;
-    
+}
+
+bool Application::booksSort(std::string option, std::string order)
+{
+    if (loggedUser == nullptr)
+    {
+        std::cout << NOT_LOGGED_IN_MESSAGE << std::endl;
+        return false;
+    }
+
+    std::string key = option + " " + order;
+    std::map<std::string, BookComparator>::const_iterator it = bookComparatorsMap.find(key);
+    if (it == bookComparatorsMap.end())
+    {
+        std::cout << "Invalid books sort option ! " << std::endl;
+        return false;
+    }
+
+    Sorter<Serializable*> sorter;
+    sorter.sort(this->booksFileController.getFileItems(), it->second);
+    return true;
 }
 
 void Application::run()
@@ -148,10 +169,18 @@ void Application::run()
     User initialUser(INITIAL_USER_USERNAME, INITIAL_USER_PASSWORD, true);
     this->users.push_back(initialUser);
 
-    // login(INITIAL_USER_USERNAME, INITIAL_USER_PASSWORD);
-    // open("./files/books.bin");
+    login(INITIAL_USER_USERNAME, INITIAL_USER_PASSWORD);
+    open("./files/books.bin");
 
-    // booksFind("tag", "cool");
+    booksAll();
+    std::cout << std::endl;
+
+    booksSort("rating", "asc");
+    booksAll();
+    std::cout << std::endl;
+
+    booksSort("rating", "desc");
+    booksAll();
 }
 
 #endif

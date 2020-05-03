@@ -21,6 +21,7 @@ private:
     bool booksAll();
     bool booksInfo(unsigned id);
     bool booksFind(std::string option, std::string optionString);
+    bool booksSort(std::string option, std::string order); // order \in {asc, desc}
 
     bool login(std::string username, std::string password);
     bool logout();
