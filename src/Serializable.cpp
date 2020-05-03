@@ -19,7 +19,6 @@ Serializable* Serializable::readSerializable(std::ifstream &input)
     serializable->deserialize(input);
 
     return serializable;
-
 }
 
 static bool writeSerializable(std::ofstream& output, Serializable* serializable)

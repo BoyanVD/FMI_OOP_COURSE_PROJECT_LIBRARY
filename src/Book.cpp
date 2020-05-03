@@ -48,8 +48,6 @@ bool Book::deserialize(std::ifstream& input)
         return false;
     }
 
-    // this->print();
-
     input.read((char*)&year, sizeof(year));
     if (!input)
         return false;
@@ -70,20 +68,39 @@ bool Book::deserialize(std::ifstream& input)
     return input.good();
 }
 
-void Book::print() const 
+void Book::printDetails() const 
 {
-    std::cout << "Author : " << author 
-            << "\n Title : " << title 
-            << "\n Genre : " << genre 
-            << "\n Desc : " << description
-            << "\n Year : " << year << std::endl;
+    std::cout << "Author : " << author << std::endl
+            << "Title : " << title << std::endl
+            << "Genre : " << genre << std::endl
+            << "Desc : " << description << std::endl
+            << "Year : " << year << std::endl;
     std::cout << "Tags : ";
     for (std::string tag : tags) {
         std :: cout << tag << ", ";
     }
     std::cout << std::endl;
-    std::cout << "Rating : " << rating
-            << "\n Id : " << id << std::endl;
+    std::cout << "Rating : " << rating << std::endl
+            << "Id : " << id << std::endl;
+}
+
+void Book::printForAll() const
+{
+    std::cout << "Title : " << title << std::endl
+            << "Author : " << author << std::endl
+            << "Genre : " << genre << std::endl
+            << "ID : " << id << std::endl;
+}
+
+bool Book::hasTag(std::string _tag)const
+{
+    for (std::string tag : tags)
+    {
+        if (tag == _tag)
+            return true;
+    }
+
+    return false;
 }
 
 #endif

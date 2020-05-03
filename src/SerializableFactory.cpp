@@ -9,9 +9,12 @@
 Serializable* SerializableFactory::generate(std::string signature)
 {
     Serializable* serializable = nullptr;
+    
     if (signature == BOOK_OBJECT_SIGNATURE)
         serializable = new Book();
-        
+    else 
+        std::cout << "Ivanlid object signature !" << std::endl;
+
     return serializable;
 }
 

@@ -26,7 +26,25 @@ public:
     bool serialize(std::ofstream& output) const;
     bool deserialize(std::ifstream& input);
 
-    void print() const;
+    void printForAll() const;
+    void printDetails() const;
+
+    bool hasTag(std::string _tag) const;
+
+    unsigned getId() const
+    {
+        return this->id;
+    }
+
+    std::string getTitle() const
+    {
+        return this->title;
+    }
+
+    std::string getAuthor() const
+    {
+        return this->author;
+    }
 };
 
 #endif

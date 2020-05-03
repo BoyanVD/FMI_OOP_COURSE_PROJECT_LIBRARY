@@ -5,6 +5,7 @@
 
 #include "Book.h"
 #include "FileController.h"
+#include "Application.h"
 
 int main() 
 {
@@ -17,16 +18,17 @@ int main()
     b3.serialize(output);
     output.close();
 
-    FileController controller("./files/books.bin");
-    controller.open();
-    controller.printAllItems();
-    std::cout << std::endl;
+    Application app;
+    app.run();
 
-    std::vector<Serializable*> books;
-    books.push_back(new Book("New Author", "New Book", "New Genre", "New Description", 2000, {"new"}, 3.3, 33));
+    // FileController controller("./files/books.bin");
+    
 
-    controller.setFileItems(books);
-    controller.save();
+    // std::vector<Serializable*> books;
+    // books.push_back(new Book("New Author", "New Book", "New Genre", "New Description", 2000, {"new"}, 3.3, 33));
 
-    controller.printAllItems();
+    // controller.setFileItems(books);
+    // controller.save();
+
+    // controller.printAllItems();
 }

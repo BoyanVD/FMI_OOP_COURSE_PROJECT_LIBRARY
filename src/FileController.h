@@ -20,18 +20,28 @@ class FileController {
 private:
     std::string filepath;
     std::vector<Serializable*> fileItems;
+    bool isFileOpened;
+
+    void deleteFileItems()
+    {
+        for (Serializable* item : fileItems)
+        {
+            delete item;
+        }
+        fileItems.clear();
+    }
 
 public:
     //initialize filename with nullptr
-    FileController();
-    FileController(std::string _filepath) : filepath(_filepath) {};
+    FileController() : isFileOpened(false) {};
+    FileController(std::string _filepath) : filepath(_filepath), isFileOpened(true) {};
     ~FileController();
 
     /*
     * Opens, reads and parse the file information into objects from the type given, and returns vector with all
     * parsed objects. After execution the file is closed and we are not working with it anymore.
     */
-    std::vector<Serializable*> open();
+    bool open();
 
     /*
     * Closes the currently opened document 
@@ -59,7 +69,7 @@ public:
     /*
     * Returns the parsed objects from the file, used by the FileController
     */
-   std::vector<Serializable*> getFileItems()
+   std::vector<Serializable*>& getFileItems()
    {
        return this->fileItems;
    }
@@ -71,7 +81,7 @@ public:
    {
        for (Serializable* serializable : fileItems)
        {
-           serializable->print();
+           serializable->printForAll();
        }
    }
 
@@ -82,6 +92,14 @@ public:
   {
       this->fileItems = items;
   }
+
+  /*
+  * DEMO METHOD
+  */
+ void addFileItem(Serializable* item)
+ {
+     this->fileItems.push_back(item);
+ }
 };
 
 #endif
