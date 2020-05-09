@@ -7,19 +7,21 @@
 class Serializable
 {
 public:
-    virtual bool serialize(std::ofstream& output) const = 0;
-    virtual bool deserialize(std::ifstream& input) = 0;
+    virtual bool serialize(std::ostream& output) const = 0;
+    virtual bool deserialize(std::istream& input) = 0;
 
     virtual void printForAll() const = 0;
     virtual void printDetails() const = 0;
+    virtual bool del(std::fstream& file) = 0;
+    virtual bool add(std::fstream& file) = 0;
 
-    static Serializable* readSerializable(std::ifstream &input);
-    static bool writeSerializable(std::ofstream& output, Serializable* serializable);
+    static Serializable* readSerializable(std::istream &input);
+    static bool writeSerializable(std::ostream& output, Serializable* serializable);
 
     virtual ~Serializable() {};
 };
 
-bool writeStringToBinaryFile(std::ofstream& output, const std::string& str);
-bool readStringFromBinary(std::ifstream& input, std::string& str);
+bool writeStringToBinaryFile(std::ostream& output, const std::string& str);
+bool readStringFromBinary(std::istream& input, std::string& str);
 
 #endif

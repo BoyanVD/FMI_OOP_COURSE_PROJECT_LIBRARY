@@ -3,6 +3,7 @@
 
 #include<string>
 #include<vector>
+#include<fstream>
 
 #include "Serializable.h"
 
@@ -23,8 +24,8 @@ public:
     Book(const std::string& _author, const std::string& _title, const std::string& _genre, const std::string& _description, const unsigned _year, const std::vector<std::string>& _tags, double _rating, unsigned _id) :
     author(_author), title(_title), genre(_genre), description(_description), year(_year), tags(_tags), rating(_rating), id(_id) {};
 
-    bool serialize(std::ofstream& output) const;
-    bool deserialize(std::ifstream& input);
+    bool serialize(std::ostream& output) const;
+    bool deserialize(std::istream& input);
 
     void printForAll() const;
     void printDetails() const;
@@ -54,6 +55,22 @@ public:
     double getRating() const
     {
         return rating;
+    }
+
+    /*
+    * Empty method, as the system still doesnt support delete books functionality.
+    */
+    bool del(std::fstream& file) 
+    {
+        return true;
+    }
+
+    /*
+    * Empty method, as the system still doesnt support delete books functionality.
+    */
+    virtual bool add(std::fstream& file)
+    {
+        return true;
     }
 };
 

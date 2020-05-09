@@ -86,4 +86,39 @@ bool FileController::close()
     return true;
 }
 
+/*
+*   Adds file item to the file controller items vector, after serializing it in the file. It looks for the first
+* item in the file that has true value for the isDelete attribute. Otherwise it serializes it at the end of the file.
+*/
+void FileController::addFileItem(Serializable* item)
+{
+     std::fstream file; 
+    file.open(filepath, std::ios::in | std::ios::binary | std::ios::out);
+
+     if (item->add(file))
+     {
+         this->fileItems.push_back(item);
+     }
+     file.close();
+}
+
+void FileController::removeFileItem(std::function<bool(Serializable*)> pred)
+{
+    std::fstream file; 
+    file.open(filepath, std::ios::in | std::ios::binary | std::ios::out);
+
+    for (int index = 0; index < fileItems.size(); ++index)
+    {
+        if (pred(fileItems[index]))
+        {
+            if (fileItems[index]->del(file))
+            {
+                fileItems.erase(fileItems.begin() + index);
+            }
+        }
+    }
+
+    file.close();
+}
+
 #endif

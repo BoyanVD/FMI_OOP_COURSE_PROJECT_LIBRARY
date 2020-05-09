@@ -9,7 +9,7 @@
 #include "Book.h"
 #include "Constants.h"
 
-bool Book::serialize(std::ofstream& output) const 
+bool Book::serialize(std::ostream& output) const 
 {
     if (!(writeStringToBinaryFile(output, BOOK_OBJECT_SIGNATURE) &&
         writeStringToBinaryFile(output, author) &&
@@ -38,7 +38,7 @@ bool Book::serialize(std::ofstream& output) const
     return output.good();
 }
 
-bool Book::deserialize(std::ifstream& input) 
+bool Book::deserialize(std::istream& input) 
 {
     if (!(readStringFromBinary(input, author) &&
         readStringFromBinary(input, title) &&

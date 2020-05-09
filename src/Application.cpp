@@ -10,6 +10,9 @@
 #include "Book.h"
 #include "Sorter.h"
 
+/*
+* TODO - Serializable derived classes must implement copy() method, returning reference to an instance through base class
+*/
 bool Application::login(std::string username, std::string password)
 {
     if (loggedUser != nullptr)
@@ -18,10 +21,14 @@ bool Application::login(std::string username, std::string password)
         return false;
     }
 
-    for (User user : users)
+    std::vector<Serializable*> users = usersFileController.getFileItems();
+    for (Serializable* user : users)
     {
-        if ((user.getUsername() == username) && (user.getPassword() == password))
-            loggedUser = &user;
+        User* parsedPointer = dynamic_cast<User*>(user);
+        //Think about checking for nullptr
+
+        if ((parsedPointer->getUsername() == username) && (parsedPointer->getPassword() == password))
+            loggedUser = parsedPointer;
     }
 
     if (loggedUser == nullptr)
@@ -164,23 +171,92 @@ bool Application::booksSort(std::string option, std::string order)
     return true;
 }
 
+// TODO - Update logic to write user on top of deleted, must probably add isDeleted to Serializable
+bool Application::usersAdd(std::string username, std::string password, bool isAdmin)
+{
+    if (isThereSuchUsername(username))
+    {
+        std::cout << "Username taken !" << std::endl;
+        return false;
+    }
+
+    Serializable* user = new User(username, password, isAdmin, false);
+    usersFileController.addFileItem(user);
+    return true;
+}
+
+bool Application::usersRemove(std::string _username)
+{
+    if (loggedUser == nullptr)
+    {
+        std::cout << NOT_LOGGED_IN_MESSAGE << std::endl;
+        return false;
+    }
+
+    if (!loggedUser->isUserAdmin())
+    {
+        std::cout << NOT_ADMIN_MESSAGE << std::endl;
+        return false;
+    }
+
+
+    if (!isThereSuchUsername(_username))
+    {
+        std::cout << "No user with such username !" << std::endl;
+        return false;
+    }
+
+    usersFileController.removeFileItem([_username](Serializable* user)->bool
+    {
+        User* userPointer = dynamic_cast<User*>(user);
+        return (userPointer->getUsername() == _username);
+    });
+
+    return true;
+}
+
+bool Application::isThereSuchUsername(std::string username)
+{
+    std::vector<Serializable*> users = usersFileController.getFileItems();
+    for(Serializable* user : users)
+    {
+        if (((User*)user)->getUsername() == username)
+            return true;
+    }
+
+    return false;
+}
+
 void Application::run()
 {
-    User initialUser(INITIAL_USER_USERNAME, INITIAL_USER_PASSWORD, true);
-    this->users.push_back(initialUser);
+    // User* initialUser = new User(INITIAL_USER_USERNAME, INITIAL_USER_PASSWORD, true, false);
+    // this->usersFileController.addFileItem(initialUser);
+    usersAdd(INITIAL_USER_USERNAME, INITIAL_USER_PASSWORD, true);
 
     login(INITIAL_USER_USERNAME, INITIAL_USER_PASSWORD);
     open("./files/books.bin");
 
-    booksAll();
+    // logout();
+    // usersRemove(INITIAL_USER_USERNAME);
+    // login(INITIAL_USER_USERNAME, INITIAL_USER_PASSWORD);
+
+    usersFileController.printAllItems();
     std::cout << std::endl;
 
-    booksSort("rating", "asc");
-    booksAll();
+    usersAdd("BoyanVD", "airbourne2003", false);
+    usersAdd("Gosho", "123456789", false);
+
+    usersFileController.printAllItems();
     std::cout << std::endl;
 
-    booksSort("rating", "desc");
-    booksAll();
+    usersRemove("Gosho");
+    usersFileController.printAllItems();
+    std::cout << std::endl;
+
+    usersAdd("Miro", "123456789", false);
+    usersFileController.printAllItems();
+    std::cout << std::endl;
+
 }
 
 #endif

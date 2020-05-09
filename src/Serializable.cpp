@@ -7,7 +7,7 @@
 #include <fstream>
 #include <cstring>
 
-Serializable* Serializable::readSerializable(std::ifstream &input)
+Serializable* Serializable::readSerializable(std::istream &input)
 {
     std::string signature;
     if (!readStringFromBinary(input, signature))
@@ -21,12 +21,12 @@ Serializable* Serializable::readSerializable(std::ifstream &input)
     return serializable;
 }
 
-static bool writeSerializable(std::ofstream& output, Serializable* serializable)
+bool Serializable::writeSerializable(std::ostream& output, Serializable* serializable)
 {
     return serializable->serialize(output);
 }
 
-bool writeStringToBinaryFile(std::ofstream& output, const std::string& str)
+bool writeStringToBinaryFile(std::ostream& output, const std::string& str)
 {
     size_t size = str.size();
     output.write((char*)&size, sizeof(size));
@@ -35,7 +35,7 @@ bool writeStringToBinaryFile(std::ofstream& output, const std::string& str)
     return output.good();
 }
 
-bool readStringFromBinary(std::ifstream& input, std::string& str)
+bool readStringFromBinary(std::istream& input, std::string& str)
 {
     size_t size;
     input.read((char*)&size, sizeof(size));

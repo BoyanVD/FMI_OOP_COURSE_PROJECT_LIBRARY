@@ -3,19 +3,9 @@
 
 #include<vector>
 #include<string>
+#include<functional>
 #include "Serializable.h"
 
-/*
-Books file format expected : 
-    <std::string author>, <std::string title>, <std::string genre>, <std::string description>, <unsigned year>, <std::vector<std::string> tags>, <double rating>, <unsigned id>
-    Books file is considered binary !
-*/
-
-
-/*
-* For the purpose of the system, it is not necessary to user the abstract class Serializable, but idea os to make the code more
-* extencible for future functionality addition.
-*/
 class FileController {
 private:
     std::string filepath;
@@ -88,18 +78,20 @@ public:
    /*
    * DEMO METHOD - MUST REMOVE IT WHEN READY
    */
-  void setFileItems(std::vector<Serializable*> items)
-  {
-      this->fileItems = items;
-  }
+   void setFileItems(std::vector<Serializable*> items)
+   {
+       this->fileItems = items;
+   }
 
   /*
   * DEMO METHOD
   */
- void addFileItem(Serializable* item)
- {
-     this->fileItems.push_back(item);
- }
+   void addFileItem(Serializable* item);
+
+   /*
+   * Must find the item to delete and call it's delete method (we need to add delete to Serializable interface)
+   */
+   void removeFileItem(std::function<bool(Serializable*)> pred);
 };
 
 #endif

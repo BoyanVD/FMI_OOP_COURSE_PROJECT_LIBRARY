@@ -2,7 +2,6 @@
 
 #include "Application.h"
 #include "Book.h"
-#include "BookDisplayDTO.h"
 #include "FileController.h"
 #include "User.h"
 #include "UsersController.h"
