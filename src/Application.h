@@ -11,6 +11,9 @@
 * @TODO - Think of implementing serialization, user deletion via Visitor pattern.
 * @TODO - Must add isDeleted field to Serializable class.
 * @TODO - Think of Doing the command parsing via Command class.
+* @TODO - add virtual method 'clone()' to Serializable class, and use it when adding Serializable to vector
+* @TODO - Check dynamic memory
+* @TODO - 
 */
 class Application {
 private:
