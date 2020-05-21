@@ -4,6 +4,7 @@
 #include<string>
 #include<vector>
 #include<fstream>
+#include<iostream>
 
 #include "Serializable.h"
 
@@ -22,15 +23,17 @@ private:
 public:
     Book() : author(""), title(""), genre(""), description(""), year(0), tags(), rating(0.0), id(0) {};
     Book(const std::string& _author, const std::string& _title, const std::string& _genre, const std::string& _description, const unsigned _year, const std::vector<std::string>& _tags, double _rating, unsigned _id) :
-    author(_author), title(_title), genre(_genre), description(_description), year(_year), tags(_tags), rating(_rating), id(_id) {};
+    author(_author), title(_title), genre(_genre), description(_description), year(_year), tags(_tags), rating(_rating), id(_id) {}
 
-    bool serialize(std::ostream& output) const;
-    bool deserialize(std::istream& input);
+    bool serialize(std::ostream& output) const override;
+    bool deserialize(std::istream& input) override;
 
-    void printForAll() const;
-    void printDetails() const;
+    void printForAll() const override;
+    void printDetails() const override;
+    bool del(std::fstream& file) override {return true;}
+    bool add(std::fstream& file) override {return true;}
 
-    bool hasTag(std::string _tag) const;
+    bool hasTag(const std::string& _tag) const;
 
     unsigned getId() const
     {
@@ -49,29 +52,29 @@ public:
 
     unsigned getYear() const
     {
-        return year;
+        return this->year;
     }
 
     double getRating() const
     {
-        return rating;
+        return this->rating;
     }
 
-    /*
-    * Empty method, as the system still doesnt support delete books functionality.
-    */
-    bool del(std::fstream& file) 
-    {
-        return true;
-    }
+    // /*
+    // * Empty method, as the system still doesnt support delete books functionality.
+    // */
+    // bool del(std::fstream& file) override
+    // {
+    //     return true;
+    // }
 
-    /*
-    * Empty method, as the system still doesnt support delete books functionality.
-    */
-    virtual bool add(std::fstream& file)
-    {
-        return true;
-    }
+    // /*
+    // * Empty method, as the system still doesnt support delete books functionality.
+    // */
+    // bool add(std::fstream& file) override
+    // {
+    //     return true;
+    // }
 };
 
 #endif

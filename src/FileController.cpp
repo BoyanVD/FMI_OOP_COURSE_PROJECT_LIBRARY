@@ -1,5 +1,5 @@
-#ifndef __FILECONTROLLER_CPP
-#define __FILECONTROLLER_CPP
+#ifndef __FILE_CONTROLLER_CPP
+#define __FILE_CONTROLLER_CPP
 
 #include <iostream>
 #include <vector>

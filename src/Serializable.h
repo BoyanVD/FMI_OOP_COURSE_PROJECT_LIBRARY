@@ -1,8 +1,9 @@
 #ifndef __SERIALIZABLE_H
 #define __SERIALIZABLE_H
 
-#include <cstring>
+#include <string>
 #include <iostream>
+#include <fstream>
 
 class Serializable
 {

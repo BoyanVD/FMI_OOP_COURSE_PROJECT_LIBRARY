@@ -2,6 +2,8 @@
 #define __SERIALIZABLE_FACTORY_H
 
 #include "Serializable.h"
+#include <iostream>
+#include <string>
 
 class SerializableFactory
 {

@@ -4,8 +4,14 @@
 #include "FileController.h"
 #include "User.h"
 #include "Constants.h"
+#include "Command.h"
 
+#include <map>
+#include <string>
 #include <vector>
+
+using BookComparator = bool (*) (Serializable*, Serializable*);
+using BooksPredicate = bool (*) (Serializable*, std::string);
 
 /*
 * @TODO - Think of implementing serialization, user deletion via Visitor pattern.
@@ -13,32 +19,40 @@
 * @TODO - Think of Doing the command parsing via Command class.
 * @TODO - add virtual method 'clone()' to Serializable class, and use it when adding Serializable to vector
 * @TODO - Check dynamic memory
-* @TODO - 
+* @TODO - Implement Clone idea
 */
 class Application {
 private:
+    static const std::map<std::string, BooksPredicate> PREDICATE_MAP;
+    static const std::map<std::string, BookComparator> BOOK_COMPARATORS_MAP;
+
+    typedef void (Application::*Function)(const Command&);
+    static const std::map<std::string, Function> SUPPORTED_FUNCTIONS;
+
     FileController booksFileController;
     FileController usersFileController;
     User* loggedUser; // shouldn't be deleted in desctructor as it always points to user from (std::vector<User> users)
 
-    bool open(std::string filepath);
-    bool close();
-    bool save();
-    bool saveas(std::string path);
-    void help();
+    void open(const Command& command);
+    void close(const Command& command);
+    void save(const Command& command);
+    void saveas(const Command& command);
+    void help(const Command& command);
 
-    bool booksAll();
-    bool booksInfo(unsigned id);
-    bool booksFind(std::string option, std::string optionString);
-    bool booksSort(std::string option, std::string order); // order \in {asc, desc}
+    void booksAll(const Command& command);
+    void booksInfo(const Command& command);
+    void booksFind(const Command& command);
+    void booksSort(const Command& command); // order \in {asc, desc}
 
-    bool login(std::string username, std::string password);
-    bool logout();
+    void login(const Command& command);
+    void logout(const Command& command);
 
-    bool usersAdd(std::string username, std::string password, bool isAdmin);
-    bool usersRemove(std::string username);
+    void usersAdd(const Command& command);
+    void usersRemove(const Command& command);
 
-    bool isThereSuchUsername(std::string username);
+    bool isThereSuchUsername(const std::string& username);
+
+    Function getFunction(const std::string key);
 
 public:
     Application() : loggedUser(nullptr), usersFileController(USERS_FILE_NAME) {};

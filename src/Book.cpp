@@ -2,7 +2,7 @@
 #define __BOOK_CPP
 
 #include <iostream>
-#include <string>
+#include <cstring>
 #include <vector>
 #include <fstream>
 
@@ -92,7 +92,7 @@ void Book::printForAll() const
             << "ID : " << id << std::endl;
 }
 
-bool Book::hasTag(std::string _tag)const
+bool Book::hasTag(const std::string& _tag) const
 {
     for (std::string tag : tags)
     {

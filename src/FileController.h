@@ -1,5 +1,5 @@
-#ifndef __FILECONTROLLER_H
-#define __FILECONTROLLER_H
+#ifndef __FILE_CONTROLLER_H
+#define __FILE_CONTROLLER_H
 
 #include<vector>
 #include<string>

@@ -2,7 +2,7 @@
 #define __USER_CPP
 
 #include <iostream>
-#include <cstring>
+#include <string>
 #include <vector>
 #include <fstream>
 
