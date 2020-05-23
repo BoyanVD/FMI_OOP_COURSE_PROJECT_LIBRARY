@@ -30,8 +30,8 @@ public:
 
     void printForAll() const override;
     void printDetails() const override;
-    bool del(std::fstream& file) override {return true;}
-    bool add(std::fstream& file) override {return true;}
+    bool del(std::fstream& file) override {return true;} // Empty methods as system doesn't still support delete functionality
+    bool add(std::fstream& file) override {return true;} // Empty methods as system doesn't still support add functionality
 
     bool hasTag(const std::string& _tag) const;
 
@@ -59,22 +59,6 @@ public:
     {
         return this->rating;
     }
-
-    // /*
-    // * Empty method, as the system still doesnt support delete books functionality.
-    // */
-    // bool del(std::fstream& file) override
-    // {
-    //     return true;
-    // }
-
-    // /*
-    // * Empty method, as the system still doesnt support delete books functionality.
-    // */
-    // bool add(std::fstream& file) override
-    // {
-    //     return true;
-    // }
 };
 
 #endif

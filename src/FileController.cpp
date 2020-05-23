@@ -30,11 +30,21 @@ bool FileController::open()
     
     while(!input.eof())
     {
-        Serializable* serializable = Serializable::readSerializable(input);
-        if (serializable == nullptr)
+        try
+        {
+            Serializable* serializable = Serializable::readSerializable(input);
+            this->fileItems.push_back(serializable);
+        }
+        catch(const InvalidSerializableObjectSignatureExcpection& e)
+        {
+            std::cout << e.what() << std::endl;
             break;
+        }
+        
+        // if (serializable == nullptr)
+        //     break;
 
-        this->fileItems.push_back(serializable);
+        // this->fileItems.push_back(serializable);
     }
     
     input.close();

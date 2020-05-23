@@ -7,6 +7,11 @@
 #include "User.h"
 #include "Constants.h"
 
+const char* InvalidSerializableObjectSignatureExcpection::what() const noexcept
+{
+    return this->message.c_str();
+}
+
 Serializable* SerializableFactory::generate(std::string signature)
 {
     Serializable* serializable = nullptr;
@@ -16,7 +21,7 @@ Serializable* SerializableFactory::generate(std::string signature)
     else if (signature == USER_OBJECT_SIGNATURE)
         serializable = new User();
     else 
-        std::cout << "Ivanlid object signature !" << std::endl;
+        throw InvalidSerializableObjectSignatureExcpection("Ivanlid object signature " + signature + " !");
 
     return serializable;
 }

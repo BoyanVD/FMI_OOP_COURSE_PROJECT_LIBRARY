@@ -20,6 +20,9 @@ public:
 
     Command(const Command &other);
 
+    std::string getCancatenatedParameters(const unsigned start, const unsigned end) const;
+    void print() const;
+
     std::string getCommand() const
     {
         return this->command;
@@ -38,29 +41,6 @@ public:
     void addParameter(const std::string& param)
     {
         this->parameters.push_back(param);
-    }
-
-    std::string getCancatenatedParameters(const unsigned start, const unsigned end) const
-    {
-        std::string result = "";
-
-        for (int index = start; index < end; ++index)
-        {
-            result += this->parameters[index];
-            result += " ";
-        }
-        result += this->parameters[end];
-
-        return result;
-    }
-
-    void print()
-    {
-        std::cout << "  Command name : " << command << std::endl;
-        for (std::string param : parameters)
-        {
-            std::cout << "  Parameter : " << param << std::endl;
-        }
     }
 };
 

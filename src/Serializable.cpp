@@ -15,8 +15,17 @@ Serializable* Serializable::readSerializable(std::istream &input)
         return nullptr;
     }
 
-    Serializable* serializable = SerializableFactory::generate(signature);
-    serializable->deserialize(input);
+    Serializable* serializable = nullptr;
+
+    try
+    {
+        serializable = SerializableFactory::generate(signature);
+        serializable->deserialize(input);
+    }
+    catch(const InvalidSerializableObjectSignatureExcpection& e)
+    {
+        std::cout << e.what() << std::endl;
+    }
 
     return serializable;
 }

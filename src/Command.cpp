@@ -16,24 +16,6 @@ Command::Command(const Command &other)
 
 void Command::parseInput(std::string input)
 {
-    // size_t position = 0;
-    // std::string current;
-    // unsigned currentStringNumber = 0;
-
-    // while ((position = input.find(INPUT_COMMAND_DELIMETER)) != std::string::npos) {
-    //     current = input.substr(0, position);
-    //     input.erase(0, position + INPUT_COMMAND_DELIMETER.length());
-        
-    //     if (currentStringNumber == 0)
-    //         this->command = current;
-    //     else 
-    //         this->parameters.push_back(current);
-        
-    //     ++currentStringNumber;
-    // }
-
-
-
     size_t current, previous = 0;
     current = input.find(INPUT_COMMAND_DELIMETER);
     unsigned numberOfParsedStrings = 0;
@@ -56,6 +38,29 @@ void Command::parseInput(std::string input)
             this->command = input.substr(previous, current - previous);
         else 
             this->parameters.push_back(input.substr(previous, current - previous));
+}
+
+std::string Command::getCancatenatedParameters(const unsigned start, const unsigned end) const
+{
+    std::string result = "";
+
+    for (int index = start; index < end; ++index)
+    {
+        result += this->parameters[index];
+        result += " ";
+    }
+    result += this->parameters[end];
+
+    return result;
+}
+
+void Command::print() const 
+{
+    std::cout << "  Command name : " << command << std::endl;
+    for (std::string param : parameters)
+    {
+        std::cout << "  Parameter : " << param << std::endl;
+    }
 }
 
 #endif
