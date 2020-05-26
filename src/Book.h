@@ -21,9 +21,11 @@ private:
     unsigned id;
 
 public:
-    Book() : author(""), title(""), genre(""), description(""), year(0), tags(), rating(0.0), id(0) {};
+    Book() : Serializable(false), author(""), title(""), genre(""), description(""), year(0), tags(), rating(0.0), id(0) {};
     Book(const std::string& _author, const std::string& _title, const std::string& _genre, const std::string& _description, const unsigned _year, const std::vector<std::string>& _tags, double _rating, unsigned _id) :
     author(_author), title(_title), genre(_genre), description(_description), year(_year), tags(_tags), rating(_rating), id(_id) {}
+
+    static void generateBooksFile(std::string filename); // This method is only with demonstration purpose
 
     bool serialize(std::ostream& output) const override;
     bool deserialize(std::istream& input) override;

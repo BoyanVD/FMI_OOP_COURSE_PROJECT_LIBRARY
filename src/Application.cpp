@@ -23,6 +23,24 @@ const std::map<std::string, Application::Function> Application::SUPPORTED_FUNCTI
     {"users_remove", &Application::usersRemove}
 };
 
+// Vector, because some of the commands number of parameters may vary
+const std::map<std::string, std::vector<unsigned>> Application::COMMAND_NUMBER_OF_PARAMETERS_MAP = {
+    {"open", {1}},
+    {"close", {0}},
+    {"save", {0}},
+    {"saveas", {1}},
+    {"help", {0}},
+    {"exit", {0}},
+    {"books_all", {0}},
+    {"books_info", {1}},
+    {"books_find", {2}}, // Books find is a little bit different
+    {"books_sort", {2, 3}},
+    {"login", {2}},
+    {"logout", {0}},
+    {"users_add", {2}},
+    {"users_remove", {1}}
+};
+
 const std::map<std::string, BooksPredicate> Application::PREDICATE_MAP = {
     {"title", [](Serializable* book, std::string str)->bool{return dynamic_cast<Book*>(book)->getTitle() == str;}},
     {"author", [](Serializable* book, std::string str)->bool{return dynamic_cast<Book*>(book)->getAuthor() == str;}},
@@ -43,6 +61,27 @@ const std::map<std::string, BookComparator> Application::BOOK_COMPARATORS_MAP = 
     {"rating desc", [](Serializable* book1, Serializable* book2)->bool{return ((Book*)book1)->getRating() > ((Book*)book2)->getRating();}}
 };
 
+bool Application::validateCommand(const Command& command)
+{
+    std::map<std::string, std::vector<unsigned>>::const_iterator it = COMMAND_NUMBER_OF_PARAMETERS_MAP.find(command.getCommand());
+    if (it == COMMAND_NUMBER_OF_PARAMETERS_MAP.end())
+    {
+        std::cout << "No such command supported !" << std::endl;
+        return false;
+    }
+
+    std::vector<unsigned> parametersAllowed =  it->second;
+    unsigned commandNumberOfParameters = command.getNumberOfParameters();
+
+    for (unsigned numberOfParameters : parametersAllowed)
+    {
+        if (numberOfParameters == commandNumberOfParameters)
+            return true;
+    }
+
+    return false;
+}
+
 Application::Function Application::getFunction(const std::string key)
 {
     std::map<std::string, Application::Function>::const_iterator it = SUPPORTED_FUNCTIONS.find(key);
@@ -58,6 +97,12 @@ Application::Function Application::getFunction(const std::string key)
 
 void Application::help(const Command& command)
 {
+    if (!validateCommand(command))
+    {
+        std::cout << "Inalid number of parameters for command 'help' !" << std::endl;
+        return;
+    }
+
     std::cout << "Supported commands : " << std::endl;
 }
 
@@ -66,6 +111,12 @@ void Application::help(const Command& command)
 */
 void Application::login(const Command& command) //username, password
 {
+    if (!validateCommand(command))
+    {
+        std::cout << "Inalid number of parameters for command 'login' !" << std::endl;
+        return;
+    }
+
     if (loggedUser != nullptr)
     {
         std::cout << "You are already logged in !" << std::endl;
@@ -93,6 +144,12 @@ void Application::login(const Command& command) //username, password
 
 void Application::logout(const Command& command)
 {
+    if (!validateCommand(command))
+    {
+        std::cout << "Inalid number of parameters for command 'logout' !" << std::endl;
+        return;
+    }
+
     if (loggedUser == nullptr)
     {
         std::cout << NOT_LOGGED_IN_MESSAGE << std::endl;
@@ -105,6 +162,12 @@ void Application::logout(const Command& command)
 
 void Application::open(const Command& command)
 {
+    if (!validateCommand(command))
+    {
+        std::cout << "Inalid number of parameters for command 'open' !" << std::endl;
+        return;
+    }
+
     booksFileController.setFilepath(command.getParameter(0));
     if (!booksFileController.open())
     {
@@ -117,21 +180,45 @@ void Application::open(const Command& command)
 
 void Application::close(const Command& command)
 {
+    if (!validateCommand(command))
+    {
+        std::cout << "Inalid number of parameters for command 'close' !" << std::endl;
+        return;
+    }
+
     booksFileController.close();
 }
 
 void Application::save(const Command& command)
 {
+    if (!validateCommand(command))
+    {
+        std::cout << "Inalid number of parameters for command 'save' !" << std::endl;
+        return;
+    }
+
     booksFileController.save();
 }
 
 void Application::saveas(const Command& command)
 {
+    if (!validateCommand(command))
+    {
+        std::cout << "Inalid number of parameters for command 'saveas' !" << std::endl;
+        return;
+    }
+
     booksFileController.saveas(command.getParameter(0));
 }
 
 void Application::booksAll(const Command& command)
 {
+    if (!validateCommand(command))
+    {
+        std::cout << "Inalid number of parameters for command 'books_all' !" << std::endl;
+        return;
+    }
+
     if (loggedUser == nullptr)
     {
         std::cout << NOT_LOGGED_IN_MESSAGE << std::endl;
@@ -147,6 +234,12 @@ void Application::booksAll(const Command& command)
 
 void Application::booksInfo(const Command& command)
 {
+    if (!validateCommand(command))
+    {
+        std::cout << "Inalid number of parameters for command 'books_info' !" << std::endl;
+        return;
+    }
+
     if (loggedUser == nullptr)
     {
         std::cout << NOT_LOGGED_IN_MESSAGE << std::endl;
@@ -207,6 +300,12 @@ void Application::booksFind(const Command& command) //option, optionString
 
 void Application::booksSort(const Command& command) // option, order
 {
+    if (!validateCommand(command))
+    {
+        std::cout << "Inalid number of parameters for command 'books_sort' !" << std::endl;
+        return;
+    }
+
     if (loggedUser == nullptr)
     {
         std::cout << NOT_LOGGED_IN_MESSAGE << std::endl;
@@ -228,6 +327,12 @@ void Application::booksSort(const Command& command) // option, order
 // TODO - Update logic to write user on top of deleted, must probably add isDeleted to Serializable
 void Application::usersAdd(const Command& command) // username, password, isAdmin
 {
+    if (!validateCommand(command))
+    {
+        std::cout << "Inalid number of parameters for command 'users_add' !" << std::endl;
+        return;
+    }
+
     if (isThereSuchUsername(command.getParameter(0)))
     {
         std::cout << "Username taken !" << std::endl;
@@ -241,6 +346,12 @@ void Application::usersAdd(const Command& command) // username, password, isAdmi
 
 void Application::usersRemove(const Command& command)
 {
+    if (!validateCommand(command))
+    {
+        std::cout << "Inalid number of parameters for command 'users_remove' !" << std::endl;
+        return;
+    }
+
     if (loggedUser == nullptr)
     {
         std::cout << NOT_LOGGED_IN_MESSAGE << std::endl;

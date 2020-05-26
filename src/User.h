@@ -11,11 +11,11 @@ private:
     std::string username;
     std::string password;
     bool isAdmin;
-    bool isDeleted;
+    // bool isDeleted;
 public:
-    User() : username(""), password(""), isAdmin(false), isDeleted(false) {};
+    User() : Serializable(false), username(""), password(""), isAdmin(false) {};
     User(const std::string& _username, const std::string& _password, bool _isAdmin, bool _isDeleted) : 
-    username(_username), password(_password), isAdmin(_isAdmin), isDeleted(_isDeleted) {};
+    Serializable(_isDeleted), username(_username), password(_password), isAdmin(_isAdmin) {};
 
     std::string getUsername() const
     {

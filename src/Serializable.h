@@ -7,7 +7,12 @@
 
 class Serializable
 {
+protected:
+    bool isDeleted;
 public:
+    Serializable() : isDeleted(false) {}
+    Serializable(bool _isDeleted) : isDeleted(_isDeleted) {}
+
     virtual bool serialize(std::ostream& output) const = 0;
     virtual bool deserialize(std::istream& input) = 0;
 

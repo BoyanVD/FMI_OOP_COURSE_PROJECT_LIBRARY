@@ -20,11 +20,13 @@ using BooksPredicate = bool (*) (Serializable*, std::string);
 * @TODO - add virtual method 'clone()' to Serializable class, and use it when adding Serializable to vector
 * @TODO - Check dynamic memory
 * @TODO - Implement Clone idea
+* @TODO - Think of inputStream and logStream
 */
 class Application {
 private:
     static const std::map<std::string, BooksPredicate> PREDICATE_MAP;
     static const std::map<std::string, BookComparator> BOOK_COMPARATORS_MAP;
+    static const std::map<std::string, std::vector<unsigned>> COMMAND_NUMBER_OF_PARAMETERS_MAP;
 
     typedef void (Application::*Function)(const Command&);
     static const std::map<std::string, Function> SUPPORTED_FUNCTIONS;
@@ -53,6 +55,7 @@ private:
     bool isThereSuchUsername(const std::string& username);
 
     Function getFunction(const std::string key);
+    bool validateCommand(const Command& command);
 
 public:
     Application() : loggedUser(nullptr), usersFileController(USERS_FILE_NAME) {};
