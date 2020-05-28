@@ -17,4 +17,6 @@ const std::string NOT_ADMIN_MESSAGE = "User not admin !";
 
 const std::string INPUT_COMMAND_DELIMETER = " ";
 
+const std::string ENCRYPTION_KEY = "FANCY KEY";
+
 #endif

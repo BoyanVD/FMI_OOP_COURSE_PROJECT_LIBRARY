@@ -7,6 +7,8 @@
 #include "Book.h"
 #include "Sorter.h"
 
+const SimpleEncryptor Application::ENCRYPTOR = {ENCRYPTION_KEY};
+
 const std::map<std::string, Application::Function> Application::SUPPORTED_FUNCTIONS = {
     {"open", &Application::open},
     {"close", &Application::close},
@@ -34,10 +36,10 @@ const std::map<std::string, std::vector<unsigned>> Application::COMMAND_NUMBER_O
     {"books_all", {0}},
     {"books_info", {1}},
     {"books_find", {2}}, // Books find is a little bit different
-    {"books_sort", {2, 3}},
+    {"books_sort", {1, 2}},
     {"login", {2}},
     {"logout", {0}},
-    {"users_add", {2}},
+    {"users_add", {3}}, // the third parameter is added from the system
     {"users_remove", {1}}
 };
 
@@ -124,12 +126,14 @@ void Application::login(const Command& command) //username, password
     }
 
     std::vector<Serializable*> users = usersFileController.getFileItems();
+    std::string encryptedPass = Application::ENCRYPTOR.encrypt(command.getParameter(1));
+
     for (Serializable* user : users)
     {
         User* parsedPointer = dynamic_cast<User*>(user);
         //Think about checking for nullptr
 
-        if ((parsedPointer->getUsername() == command.getParameter(0)) && (parsedPointer->getPassword() == command.getParameter(1)))
+        if ((parsedPointer->getUsername() == command.getParameter(0)) && (parsedPointer->getPassword() == encryptedPass))
             loggedUser = parsedPointer;
     }
 
@@ -312,7 +316,12 @@ void Application::booksSort(const Command& command) // option, order
         return;
     }
 
-    std::string key = command.getParameter(0) + " " + command.getParameter(1);
+    
+    std::string key;
+    if (command.getNumberOfParameters() == 2)
+        key = command.getParameter(0) + " " + command.getParameter(1);
+    else
+        key = command.getParameter(0) + " " + "asc";
     std::map<std::string, BookComparator>::const_iterator it = BOOK_COMPARATORS_MAP.find(key);
     if (it == BOOK_COMPARATORS_MAP.end())
     {
@@ -327,6 +336,12 @@ void Application::booksSort(const Command& command) // option, order
 // TODO - Update logic to write user on top of deleted, must probably add isDeleted to Serializable
 void Application::usersAdd(const Command& command) // username, password, isAdmin
 {
+    if (this->loggedUser == nullptr || (!this->loggedUser->isUserAdmin()))
+    {
+        std::cout << "Not authorized !" << std::endl;
+        return;
+    }
+
     if (!validateCommand(command))
     {
         std::cout << "Inalid number of parameters for command 'users_add' !" << std::endl;
@@ -340,7 +355,9 @@ void Application::usersAdd(const Command& command) // username, password, isAdmi
     }
 
     bool isAdmin = command.getParameter(2) == "1";
-    Serializable* user = new User(command.getParameter(0), command.getParameter(1), isAdmin, false);
+    std::string encryptedPass = Application::ENCRYPTOR.encrypt(command.getParameter(1));
+
+    Serializable* user = new User(command.getParameter(0), encryptedPass, isAdmin, false);
     usersFileController.addFileItem(user);
 }
 
@@ -394,11 +411,9 @@ bool Application::isThereSuchUsername(const std::string& username)
 
 void Application::run()
 {
-    // User* initialUser = new User(INITIAL_USER_USERNAME, INITIAL_USER_PASSWORD, true, false);
-    // this->usersFileController.addFileItem(initialUser);
-
-    std::string initialCommand = "users_add "  + INITIAL_USER_USERNAME + " " + INITIAL_USER_PASSWORD + " 1";
-    usersAdd(initialCommand);
+    // Adding initial user
+    Serializable* user = new User(INITIAL_USER_USERNAME, Application::ENCRYPTOR.encrypt(INITIAL_USER_PASSWORD), true, false);
+    this->usersFileController.addFileItem(user);
 
     std::string input;
     do
@@ -419,31 +434,6 @@ void Application::run()
     } while (input != "exit");
     
     std::cout << "Thank you for using the system !" << std::endl;
-
-    // login(INITIAL_USER_USERNAME, INITIAL_USER_PASSWORD);
-    // open("./files/books.bin");
-
-    // // logout();
-    // // usersRemove(INITIAL_USER_USERNAME);
-    // // login(INITIAL_USER_USERNAME, INITIAL_USER_PASSWORD);
-
-    // usersFileController.printAllItems();
-    // std::cout << std::endl;
-
-    // usersAdd("BoyanVD", "airbourne2003", false);
-    // usersAdd("Gosho", "123456789", false);
-
-    // usersFileController.printAllItems();
-    // std::cout << std::endl;
-
-    // usersRemove("Gosho");
-    // usersFileController.printAllItems();
-    // std::cout << std::endl;
-
-    // usersAdd("Miro", "123456789", false);
-    // usersFileController.printAllItems();
-    // std::cout << std::endl;
-
 }
 
 #endif

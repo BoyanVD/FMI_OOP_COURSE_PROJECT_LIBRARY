@@ -5,6 +5,7 @@
 #include "User.h"
 #include "Constants.h"
 #include "Command.h"
+#include "SimpleEncryptor.h"
 
 #include <map>
 #include <string>
@@ -27,6 +28,8 @@ private:
     static const std::map<std::string, BooksPredicate> PREDICATE_MAP;
     static const std::map<std::string, BookComparator> BOOK_COMPARATORS_MAP;
     static const std::map<std::string, std::vector<unsigned>> COMMAND_NUMBER_OF_PARAMETERS_MAP;
+
+    static const SimpleEncryptor ENCRYPTOR;
 
     typedef void (Application::*Function)(const Command&);
     static const std::map<std::string, Function> SUPPORTED_FUNCTIONS;

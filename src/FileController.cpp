@@ -40,14 +40,11 @@ bool FileController::open()
             std::cout << e.what() << std::endl;
             break;
         }
-        
-        // if (serializable == nullptr)
-        //     break;
-
-        // this->fileItems.push_back(serializable);
     }
+    this->fileItems.pop_back();
     
     input.close();
+    this->isFileOpened = true;
     return true;
 }
 
@@ -76,7 +73,7 @@ bool FileController::saveas(std::string path)
         if (!serializable->serialize(output))
             return false;
     }
-
+    
     output.close();
     return true;
 }
@@ -92,7 +89,7 @@ bool FileController::close()
     filepath = "";
     isFileOpened = false;
     deleteFileItems();
-
+    std::cout << "Successfully closed " << this->filepath << std::endl;
     return true;
 }
 

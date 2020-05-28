@@ -7,6 +7,8 @@
 #include "FileController.h"
 #include "Application.h"
 
+#include "SimpleEncryptor.h"
+
 int main() 
 {
     Book::generateBooksFile("./files/books.bin");
