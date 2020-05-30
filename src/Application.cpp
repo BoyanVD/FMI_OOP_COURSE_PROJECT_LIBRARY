@@ -105,7 +105,23 @@ void Application::help(const Command& command)
         return;
     }
 
+    std::cout << std::endl;
     std::cout << "Supported commands : " << std::endl;
+    std::cout << ">open <filename> - opens binary file, contatining information about library's books.  " << std::endl;
+    std::cout << ">close - closes the currently opened file.  " << std::endl;
+    std::cout << ">save - saves the changes made in the file opened. " << std::endl;
+    std::cout << ">saveas <filename> - saves the changes made in the file given. " << std::endl;
+    std::cout << ">exit - exits the system. " << std::endl;
+    std::cout << std::endl;
+    std::cout << ">login <username> <password> - logs user into the system, if username and password are valid. " << std::endl;
+    std::cout << ">logout - user logout. " << std::endl;
+    std::cout << ">books_all - shows brief information, about all books, currently loaded. " << std::endl;
+    std::cout << ">books_info <isbn_value> -  shows details about book with id <isbn_value>." << std::endl;
+    std::cout << ">books_find <option> <option_string> - filters all books in system, by option and value given. " << std::endl;
+    std::cout << ">books_sort <option> [asc | desc] - <option> is in {title, author, year, rating}  " << std::endl;
+    std::cout << ">users_add <user> <password> - admin allowed only. Adds new user to the system. " << std::endl;
+    std::cout << ">users_remove - admin allowed only. Removes user from the system. " << std::endl;
+    std::cout << ">session_save - saves users and books into their files. " << std::endl;
 }
 
 /*
@@ -411,9 +427,13 @@ bool Application::isThereSuchUsername(const std::string& username)
 
 void Application::run()
 {
-    // Adding initial user
-    Serializable* user = new User(INITIAL_USER_USERNAME, Application::ENCRYPTOR.encrypt(INITIAL_USER_PASSWORD), true, false);
-    this->usersFileController.addFileItem(user);
+    this->usersFileController.open();
+    // Adding initial user, if there is no already such
+    if (!this->isThereSuchUsername("admin"))
+    {
+        Serializable* user = new User(INITIAL_USER_USERNAME, Application::ENCRYPTOR.encrypt(INITIAL_USER_PASSWORD), true, false);
+        this->usersFileController.addFileItem(user);
+    }
 
     std::string input;
     do

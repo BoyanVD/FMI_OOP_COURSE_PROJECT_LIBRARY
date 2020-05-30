@@ -6,7 +6,8 @@
 #include<functional>
 #include "Serializable.h"
 
-class FileController {
+class FileController 
+{
 private:
     std::string filepath;
     std::vector<Serializable*> fileItems;
@@ -24,7 +25,7 @@ private:
 public:
     //initialize filename with nullptr
     FileController() : isFileOpened(false) {};
-    FileController(std::string _filepath) : filepath(_filepath), isFileOpened(true) {};
+    FileController(std::string _filepath) : filepath(_filepath), isFileOpened(false) {};
     ~FileController();
 
     /*

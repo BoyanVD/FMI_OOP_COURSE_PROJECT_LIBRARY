@@ -11,7 +11,7 @@ private:
     std::string username;
     std::string password;
     bool isAdmin;
-    // bool isDeleted;
+    
 public:
     User() : Serializable(false), username(""), password(""), isAdmin(false) {};
     User(const std::string& _username, const std::string& _password, bool _isAdmin, bool _isDeleted) : 

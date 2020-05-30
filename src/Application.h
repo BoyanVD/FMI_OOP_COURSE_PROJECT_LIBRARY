@@ -1,3 +1,18 @@
+/**
+ * \class Application
+ *
+ * \brief The main application driving class
+ *
+ * This is the mean class in the application, where all the application features
+ * are managed. Most of the business logic is implemented here.
+ *
+ * \author $Author: Boyan Dafov $
+ *
+ * \version $Revision: 1.0 $
+ *
+ * Contact: boyandafov123@gmail.com
+ *
+ */
 #ifndef __APPLICATION_H
 #define __APPLICATION_H
 
@@ -14,16 +29,18 @@
 using BookComparator = bool (*) (Serializable*, Serializable*);
 using BooksPredicate = bool (*) (Serializable*, std::string);
 
-/*
-* @TODO - Think of implementing serialization, user deletion via Visitor pattern.
-* @TODO - Must add isDeleted field to Serializable class.
-* @TODO - Think of Doing the command parsing via Command class.
-* @TODO - add virtual method 'clone()' to Serializable class, and use it when adding Serializable to vector
-* @TODO - Check dynamic memory
-* @TODO - Implement Clone idea
-* @TODO - Think of inputStream and logStream
-*/
-class Application {
+// /*
+// * @TODO - Think of implementing serialization, user deletion via Visitor pattern.
+// * @TODO - Must add isDeleted field to Serializable class.
+// * @TODO - Think of Doing the command parsing via Command class.
+// * @TODO - add virtual method 'clone()' to Serializable class, and use it when adding Serializable to vector
+// * @TODO - Check dynamic memory
+// * @TODO - Implement Clone idea
+// * @TODO - Think of inputStream and logStream
+// */
+
+class Application 
+{
 private:
     static const std::map<std::string, BooksPredicate> PREDICATE_MAP;
     static const std::map<std::string, BookComparator> BOOK_COMPARATORS_MAP;

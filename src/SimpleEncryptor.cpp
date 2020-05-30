@@ -8,7 +8,9 @@ std::string SimpleEncryptor::encryptDecrypt(const std::string& str) const
     std::string result = str;
     
     for (int i = 0; i < str.size(); i++)
+    {
         result[i] = str[i] ^ this->key[i % (this->key.size())];
+    }
     
     return result;
 }

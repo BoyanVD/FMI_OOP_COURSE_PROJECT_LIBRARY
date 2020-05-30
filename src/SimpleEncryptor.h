@@ -17,8 +17,8 @@ public:
     SimpleEncryptor(const std::string& _key) : key(_key) {}
     ~SimpleEncryptor() {}
 
-    std::string encrypt(const std::string& str) const;
-    std::string decrypt(const std::string& str) const;
+    std::string encrypt(const std::string& str) const; // Encrypt and decrypt do the same thing , but defined as 
+    std::string decrypt(const std::string& str) const; // different functions, in oreder to be more user-friendly
 };
 
 
