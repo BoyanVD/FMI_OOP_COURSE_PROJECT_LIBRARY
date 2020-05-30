@@ -120,4 +120,29 @@ bool Book::hasTag(const std::string& _tag) const
     return false;
 }
 
+unsigned Book::getId() const
+{
+    return this->id;
+}
+
+std::string Book::getTitle() const
+{
+    return this->title;
+}
+
+std::string Book::getAuthor() const
+{
+    return this->author;
+}
+
+unsigned Book::getYear() const
+{
+    return this->year;
+}
+
+double Book::getRating() const
+{
+    return this->rating;
+}
+
 #endif

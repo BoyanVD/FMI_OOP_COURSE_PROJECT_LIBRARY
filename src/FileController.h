@@ -1,3 +1,18 @@
+/**
+ * \class FileController
+ *
+ * \brief The class, impleneting file management.
+ *
+ * This is the class, that takes care of all the work with files,
+ * that conatin Serializable objects information. In the contexts
+ * of this application this is User and Book, but it works for 
+ * all classes, that extend Serializable base class.
+ *
+ * \author $Author: Boyan Dafov $
+ * 
+ * Contact: boyandafov123@gmail.com
+ *
+ */
 #ifndef __FILE_CONTROLLER_H
 #define __FILE_CONTROLLER_H
 
@@ -9,10 +24,25 @@
 class FileController 
 {
 private:
+    /**
+     * The file, which controller works with, path.
+     */
     std::string filepath;
+
+    /**
+     * Items, extracted from the file given.
+     */
     std::vector<Serializable*> fileItems;
+
+    /**
+     * Helper flag, used to identify, if there is currently opened file.
+     */
     bool isFileOpened;
 
+    /**
+    * Helper function, that deletes controller's information
+    * loaded in memory.
+    */
     void deleteFileItems()
     {
         for (Serializable* item : fileItems)
@@ -23,75 +53,73 @@ private:
     }
 
 public:
-    //initialize filename with nullptr
     FileController() : isFileOpened(false) {};
     FileController(std::string _filepath) : filepath(_filepath), isFileOpened(false) {};
     ~FileController();
 
-    /*
-    * Opens, reads and parse the file information into objects from the type given, and returns vector with all
-    * parsed objects. After execution the file is closed and we are not working with it anymore.
+    /**
+    * Opens, the file given
+    * 
+    * @return bool, representing the success.
     */
     bool open();
 
-    /*
-    * Closes the currently opened document 
+    /**
+    * Closes, the currently opened file.
+    * 
+    * @return bool, representing the success.
     */
     bool close();
 
-    /*
+    /**
     * Saves the changes done back to the initial file
+    * 
+    * @return bool, representing the success.
     */
     bool save();
 
-    /*
+    /**
     * Saves the changes in specific file given
+    * 
+    * @return bool, representing the success.
     */
     bool saveas(std::string path);
 
-    /*
-    * Sets the filepath value
+    /**
+    * Sets the filepath value.
+    * 
+    * @param _filepath new file's path
     */
     void setFilepath(std::string _filepath)
     {
         this->filepath = _filepath;
     }
 
-    /*
+    /**
     * Returns the parsed objects from the file, used by the FileController
+    * 
+    * @return parsed serializable items, that the controller works with.
     */
    std::vector<Serializable*>& getFileItems()
    {
        return this->fileItems;
    }
 
-    /*
-    * Used for debugging
+    /**
+    * Adds new file item to controller's items. Please note,
+    * that the FileCntroller is owner of all it's file items, so
+    * every item you add, will be deleted in FileController's
+    * destructor.
+    * 
+    * @param item pointer to serializable item.
     */
-   void printAllItems()
-   {
-       for (Serializable* serializable : fileItems)
-       {
-           serializable->printForAll();
-       }
-   }
-
-   /*
-   * DEMO METHOD - MUST REMOVE IT WHEN READY
-   */
-   void setFileItems(std::vector<Serializable*> items)
-   {
-       this->fileItems = items;
-   }
-
-  /*
-  * DEMO METHOD
-  */
    void addFileItem(Serializable* item);
 
-   /*
-   * Must find the item to delete and call it's delete method (we need to add delete to Serializable interface)
-   */
+   /**
+    * Removes all file items, that doesnt satisfy predicate condition given.
+    * 
+    * @param pred Serializable predicate function
+    */
    void removeFileItem(std::function<bool(Serializable*)> pred);
 };
 

@@ -1,3 +1,15 @@
+/**
+ * \class SerializableFactory
+ *
+ * \brief Serializable factory design implementation.
+ *
+ * Used to generate Serializable objects by criteria given.
+ *
+ * \author $Author: Boyan Dafov $
+ * 
+ * Contact: boyandafov123@gmail.com
+ *
+ */
 #ifndef __SERIALIZABLE_FACTORY_H
 #define __SERIALIZABLE_FACTORY_H
 
@@ -18,6 +30,13 @@ public:
 class SerializableFactory
 {
 public:
+    /**
+     * Generates Serializable object and returns pointer to it.
+     * The criteria is object signature.
+     * 
+     * @param signature the object signature
+     * @return pointer to generated object
+     */
     static Serializable* generate(std::string signature);
 };
 

@@ -124,10 +124,7 @@ void Application::help(const Command& command)
     std::cout << ">session_save - saves users and books into their files. " << std::endl;
 }
 
-/*
-* TODO - Serializable derived classes must implement copy() method, returning reference to an instance through base class
-*/
-void Application::login(const Command& command) //username, password
+void Application::login(const Command& command)
 {
     if (!validateCommand(command))
     {
@@ -147,7 +144,6 @@ void Application::login(const Command& command) //username, password
     for (Serializable* user : users)
     {
         User* parsedPointer = dynamic_cast<User*>(user);
-        //Think about checking for nullptr
 
         if ((parsedPointer->getUsername() == command.getParameter(0)) && (parsedPointer->getPassword() == encryptedPass))
             loggedUser = parsedPointer;
@@ -290,7 +286,7 @@ void Application::booksInfo(const Command& command)
     std::cout << "There is no book with id " << id << std ::endl;
 }
 
-void Application::booksFind(const Command& command) //option, optionString
+void Application::booksFind(const Command& command)
 {
     if (loggedUser == nullptr)
     {
@@ -318,7 +314,7 @@ void Application::booksFind(const Command& command) //option, optionString
     }
 }
 
-void Application::booksSort(const Command& command) // option, order
+void Application::booksSort(const Command& command)
 {
     if (!validateCommand(command))
     {
@@ -349,8 +345,7 @@ void Application::booksSort(const Command& command) // option, order
     sorter.sort(this->booksFileController.getFileItems(), it->second);
 }
 
-// TODO - Update logic to write user on top of deleted, must probably add isDeleted to Serializable
-void Application::usersAdd(const Command& command) // username, password, isAdmin
+void Application::usersAdd(const Command& command)
 {
     if (this->loggedUser == nullptr || (!this->loggedUser->isUserAdmin()))
     {
@@ -401,6 +396,12 @@ void Application::usersRemove(const Command& command)
     if (!isThereSuchUsername(command.getParameter(0)))
     {
         std::cout << "No user with such username !" << std::endl;
+        return;
+    }
+
+    if (command.getParameter(0) == this->loggedUser->getUsername())
+    {
+        std::cout << "You cannot delete yourself :) " << std::endl;
         return;
     }
 

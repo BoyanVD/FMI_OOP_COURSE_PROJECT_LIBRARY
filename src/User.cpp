@@ -58,7 +58,6 @@ bool User::del(std::fstream& file)
     while (!file.eof()) { 
         position = file.tellg(); 
   
-        // user.deserialize(file);
         User* user = dynamic_cast<User*>(Serializable::readSerializable(file));
         if(user == nullptr)
         {
@@ -111,6 +110,26 @@ bool User::add(std::fstream& file)
     out.close();
 
     return true;
+}
+
+std::string User::getUsername() const
+{
+    return this->username;
+}
+
+std::string User::getPassword() const
+{
+    return this->password;
+}
+
+bool User::isUserAdmin() const
+{
+    return this->isAdmin;
+}
+
+bool User::isUserDeleted() const
+{
+    return this->isDeleted;
 }
 
 #endif

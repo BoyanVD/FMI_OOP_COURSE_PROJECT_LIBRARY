@@ -93,10 +93,6 @@ bool FileController::close()
     return true;
 }
 
-/*
-*   Adds file item to the file controller items vector, after serializing it in the file. It looks for the first
-* item in the file that has true value for the isDelete attribute. Otherwise it serializes it at the end of the file.
-*/
 void FileController::addFileItem(Serializable* item)
 {
      std::fstream file; 

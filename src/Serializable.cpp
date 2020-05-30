@@ -4,9 +4,6 @@
 #include "Serializable.h"
 #include "SerializableFactory.h"
 
-// #include <fstream>
-// #include <string>
-
 Serializable* Serializable::readSerializable(std::istream &input)
 {
     std::string signature;
@@ -35,7 +32,7 @@ bool Serializable::writeSerializable(std::ostream& output, Serializable* seriali
     return serializable->serialize(output);
 }
 
-bool writeStringToBinaryFile(std::ostream& output, const std::string& str)
+bool Serializable::writeStringToBinaryFile(std::ostream& output, const std::string& str)
 {
     size_t size = str.size();
     output.write((char*)&size, sizeof(size));
@@ -44,7 +41,7 @@ bool writeStringToBinaryFile(std::ostream& output, const std::string& str)
     return output.good();
 }
 
-bool readStringFromBinary(std::istream& input, std::string& str)
+bool Serializable::readStringFromBinary(std::istream& input, std::string& str)
 {
     size_t size;
     input.read((char*)&size, sizeof(size));

@@ -4,16 +4,6 @@
 #include "Command.h"
 #include "Constants.h"
 
-Command::Command(const Command &other)
-{
-    this->command = other.command;
-    this->parameters.clear();
-    for (int index = 0; index < other.getNumberOfParameters(); ++index)
-    {
-        this->parameters.push_back(other.getParameter(index));
-    }
-}
-
 void Command::parseInput(std::string input)
 {
     size_t current, previous = 0;
@@ -61,6 +51,26 @@ void Command::print() const
     {
         std::cout << "  Parameter : " << param << std::endl;
     }
+}
+
+std::string Command::getCommand() const
+{
+    return this->command;
+}
+
+std::string Command::getParameter(unsigned index) const
+{
+    return this->parameters[index];
+}
+
+size_t Command::getNumberOfParameters() const
+{
+    return this->parameters.size();
+}
+
+void Command::addParameter(const std::string& param)
+{
+    this->parameters.push_back(param);
 }
 
 #endif
