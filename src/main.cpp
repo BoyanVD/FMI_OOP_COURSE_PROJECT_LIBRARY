@@ -19,6 +19,35 @@
 
 int main() 
 {
+    /**
+     * 
+     * Command to compile:
+     * g++ main.cpp Book.cpp FileController.cpp SerializableFactory.cpp Serializable.cpp Application.cpp Command.cpp User.cpp SimpleEncryptor.cpp
+     * 
+     * Example of system usage :
+     * 
+     * >open ./files/books.bin
+     * >login admin i<3c++
+     * >books_all
+     * >books_info 24
+     * >books_find tag super
+     * >books_find title Fancy book
+     * >books_find author John Michaels
+     * >books_sort title asc
+     * >books_all
+     * >books_sort year desc
+     * >books_all
+     * >books_sort rating
+     * >books_all
+     * >users_add ivan 123456
+     * >logout
+     * >login ivan 123456
+     * >users_add georgi fancyPass (not authorized)
+     * >logout
+     * >login admin i<3c++
+     * >users_remove ivan
+     * >exit
+     */
     Book::generateBooksFile("./files/books.bin");
     
     Application app;
