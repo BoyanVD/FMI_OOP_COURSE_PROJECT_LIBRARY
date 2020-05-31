@@ -50,11 +50,11 @@ const std::map<std::string, BooksPredicate> Application::PREDICATE_MAP = {
 };
 
 const std::map<std::string, BookComparator> Application::BOOK_COMPARATORS_MAP = {
-    {"title asc", [](Serializable* book1, Serializable* book2)->bool{return ((Book*)book1)->getTitle() > ((Book*)book2)->getTitle();}},
-    {"title desc", [](Serializable* book1, Serializable* book2)->bool{return ((Book*)book1)->getTitle() < ((Book*)book2)->getTitle();}},
+    {"title asc", [](Serializable* book1, Serializable* book2)->bool{return ((Book*)book1)->getTitle() < ((Book*)book2)->getTitle();}},
+    {"title desc", [](Serializable* book1, Serializable* book2)->bool{return ((Book*)book1)->getTitle() > ((Book*)book2)->getTitle();}},
 
-    {"author asc", [](Serializable* book1, Serializable* book2)->bool{return ((Book*)book1)->getAuthor() > ((Book*)book2)->getAuthor();}},
-    {"author desc", [](Serializable* book1, Serializable* book2)->bool{return ((Book*)book1)->getAuthor() < ((Book*)book2)->getAuthor();}},
+    {"author asc", [](Serializable* book1, Serializable* book2)->bool{return ((Book*)book1)->getAuthor() < ((Book*)book2)->getAuthor();}},
+    {"author desc", [](Serializable* book1, Serializable* book2)->bool{return ((Book*)book1)->getAuthor() > ((Book*)book2)->getAuthor();}},
 
     {"year asc", [](Serializable* book1, Serializable* book2)->bool{return ((Book*)book1)->getYear() < ((Book*)book2)->getYear();}},
     {"year desc", [](Serializable* book1, Serializable* book2)->bool{return ((Book*)book1)->getYear() > ((Book*)book2)->getYear();}},
